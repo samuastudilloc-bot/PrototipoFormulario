@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Universidad de La Salle – Contáctanos</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Variables ── */
+:root {
+  --azul:        #1a3a6b;   /* azul oscuro navbar y botones */
+  --azul-hover:  #142d54;   /* azul más oscuro al hacer hover */
+  --amarillo:    #f0a500;   /* amarillo botón "Contáctanos" */
+  --amarillo-hover: #d99200;
+  --fondo:       #dde8f5;   /* fondo celeste claro de la página */
+  --blanco:      #ffffff;
+  --gris-label:  #333333;
+  --gris-placeholder: #999999;
+  --borde:       #c8d6e8;
+  --borde-error: #e02020;
+  --texto-error: #e02020;
+  --verde:       #2db85a;   /* check de éxito */
+  --verde-bg:    #e6f9ee;
+  --radio:       8px;
+  --radio-card:  14px;
+  --font:        'Segoe UI', Arial, sans-serif;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--fondo);
+  color: var(--gris-label);
+  min-height: 100vh;
+}
+
+/* ══════════════════════════════
+   NAVBAR
+══════════════════════════════ */
+.navbar {
+  background: var(--blanco);
+  border-bottom: 3px solid var(--amarillo);
+  padding: 0 28px;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-logo {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+.navbar-logo .univ {
+  font-size: 9px;
+  font-weight: 400;
+  color: var(--azul);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.navbar-logo .nombre {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--azul);
+  letter-spacing: -0.5px;
+}
+.navbar-logo .nombre span {
+  color: var(--amarillo);
+}
+
+.navbar-search {
+  display: flex;
+  align-items: center;
+  background: #f0f4f9;
+  border: 1px solid var(--borde);
+  border-radius: 20px;
+  padding: 6px 14px;
+  gap: 8px;
+  flex: 1;
+  max-width: 340px;
+  margin: 0 24px;
+}
+.navbar-search input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 13px;
+  color: var(--gris-label);
+  width: 100%;
+}
+.navbar-search input::placeholder { color: var(--gris-placeholder); }
+.navbar-search .icon-search {
+  color: var(--gris-placeholder);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.navbar-icons {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  color: var(--azul);
+  font-size: 20px;
+}
+.navbar-icons i { cursor: pointer; }
+.navbar-icons i:hover { opacity: 0.7; }
+
+/* ══════════════════════════════
+   PÁGINA DE INICIO — Hero
+══════════════════════════════ */
+.hero {
+  display: none; /* oculto por defecto; se muestra con JS */
+  min-height: calc(100vh - 62px);
+  background: var(--azul);
+  position: relative;
+  overflow: hidden;
+  align-items: center;
+}
+.hero.visible { display: flex; }
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 60px 48px;
+  max-width: 480px;
+  color: var(--blanco);
+}
+.hero-content h1 {
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  opacity: 0.85;
+}
+.hero-content h2 {
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1.05;
+  margin-bottom: 20px;
+}
+.hero-content p {
+  font-size: 15px;
+  line-height: 1.6;
+  opacity: 0.9;
+  margin-bottom: 32px;
+  max-width: 340px;
+}
+
+.btn-hero {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--amarillo);
+  color: var(--azul);
+  font-weight: 700;
+  font-size: 15px;
+  padding: 13px 28px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.18s;
+}
+.btn-hero:hover { background: var(--amarillo-hover); }
+
+.hero-image {
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 60%;
+  object-fit: cover;
+  clip-path: polygon(12% 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+/* ── Dots del slider (decorativos) ── */
+.hero-dots {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 3;
+}
+.hero-dots span {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+}
+.hero-dots span.active { background: var(--blanco); }
+
+/* ══════════════════════════════
+   PÁGINA FORMULARIO
+══════════════════════════════ */
+.page-form {
+  display: none;
+  min-height: calc(100vh - 62px);
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 16px;
+}
+.page-form.visible { display: flex; }
+
+.card {
+  background: var(--blanco);
+  border-radius: var(--radio-card);
+  padding: 36px 40px 40px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 2px 16px rgba(26,58,107,0.08);
+}
+
+.card-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--azul);
+  margin-bottom: 6px;
+}
+.card-subtitle {
+  text-align: center;
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 28px;
+}
+
+/* ── Campos del formulario ── */
+.field {
+  margin-bottom: 18px;
+}
+.field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gris-label);
+  margin-bottom: 6px;
+}
+.field label .req {
+  color: var(--borde-error);
+  margin-left: 2px;
+}
+.field input,
+.field textarea {
+  width: 100%;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 10px 14px;
+  font-size: 14px;
+  font-family: var(--font);
+  color: var(--gris-label);
+  background: var(--blanco);
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+.field input::placeholder,
+.field textarea::placeholder {
+  color: var(--gris-placeholder);
+}
+.field input:focus,
+.field textarea:focus {
+  border-color: var(--azul);
+  box-shadow: 0 0 0 3px rgba(26,58,107,0.1);
+}
+.field textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+/* Estado de error */
+.field input.error,
+.field textarea.error {
+  border-color: var(--borde-error);
+  box-shadow: 0 0 0 3px rgba(224,32,32,0.1);
+}
+.field .error-wrap {
+  display: none;
+  align-items: center;
+  gap: 5px;
+  margin-top: 5px;
+  font-size: 12px;
+  color: var(--texto-error);
+  font-weight: 500;
+}
+.field .error-wrap.visible { display: flex; }
+.field .input-wrap {
+  position: relative;
+}
+.field .input-wrap .icon-error {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--borde-error);
+  font-size: 18px;
+  display: none;
+}
+.field .input-wrap .icon-error.visible { display: block; }
+
+/* ── Botón enviar ── */
+.btn-enviar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  background: var(--azul);
+  color: var(--blanco);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font);
+  padding: 13px;
+  border: none;
+  border-radius: var(--radio);
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.18s;
+}
+.btn-enviar:hover { background: var(--azul-hover); }
+
+/* ── Volver al inicio ── */
+.link-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 18px;
+  font-size: 13px;
+  color: var(--azul);
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+.link-back:hover { text-decoration: underline; }
+
+/* ══════════════════════════════
+   PÁGINA ÉXITO
+══════════════════════════════ */
+.page-success {
+  display: none;
+  min-height: calc(100vh - 62px);
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 16px;
+}
+.page-success.visible { display: flex; }
+
+.success-check {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: var(--verde-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 34px;
+  color: var(--verde);
+}
+.success-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--azul);
+  margin-bottom: 6px;
+}
+.success-sub {
+  text-align: center;
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 24px;
+}
+.success-sub strong { color: var(--azul); }
+
+.success-info {
+  background: #f3f7fc;
+  border-radius: var(--radio);
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.success-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14px;
+}
+.success-row i {
+  color: var(--azul);
+  font-size: 20px;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+.success-row strong { color: var(--azul); }
+
+.btn-volver {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  background: var(--azul);
+  color: var(--blanco);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font);
+  padding: 13px;
+  border: none;
+  border-radius: var(--radio);
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.btn-volver:hover { background: var(--azul-hover); }
+
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+@media (max-width: 560px) {
+  .navbar-search { display: none; }
+  .hero-content { padding: 40px 24px; }
+  .hero-content h2 { font-size: 36px; }
+  .hero-image { width: 100%; opacity: 0.25; clip-path: none; }
+  .card { padding: 28px 20px 32px; }
+}
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════ NAVBAR ══════════════ -->
+  <nav class="navbar">
+    <div class="navbar-logo">
+      <span class="univ">Universidad de</span>
+      <span class="nombre">LA<span>S</span>ALLE</span>
+    </div>
+
+    <div class="navbar-search">
+      <i class="ti ti-search icon-search" aria-hidden="true"></i>
+      <input type="text" placeholder="Ingresa texto de búsqueda">
+      <i class="ti ti-search" aria-hidden="true" style="color:#1a3a6b;cursor:pointer"></i>
+    </div>
+
+    <div class="navbar-icons">
+      <i class="ti ti-bell" aria-label="Notificaciones"></i>
+      <i class="ti ti-bell-ringing" aria-label="Alertas"></i>
+      <i class="ti ti-shopping-cart" aria-label="Carrito"></i>
+    </div>
+  </nav>
+
+  <!-- ══════════════ PÁGINA INICIO (Hero) ══════════════ -->
+  <section class="hero visible" id="page-inicio" aria-label="Página de inicio">
+    <div class="hero-content">
+      <h1>Hablemos de</h1>
+      <h2>La Salle</h2>
+      <p>¿Tienes preguntas, sugerencias o necesitas más información? Estamos para ayudarte.</p>
+      <a class="btn-hero" onclick="mostrarFormulario()" href="#" role="button">
+        Contáctanos &nbsp;→
+      </a>
+    </div>
+
+    <!-- Imagen decorativa del campus (placeholder con color) -->
+    <img
+      class="hero-image"
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Universidad_de_La_Salle_Bogot%C3%A1_-_Fachada_principal.jpg/1200px-Universidad_de_La_Salle_Bogot%C3%A1_-_Fachada_principal.jpg"
+      alt="Campus Universidad de La Salle"
+      onerror="this.style.display='none'"
+    >
+
+    <div class="hero-dots" aria-hidden="true">
+      <span class="active"></span>
+      <span></span>
+      <span></span>
+    </div>
+  </section>
+
+  <!-- ══════════════ PÁGINA FORMULARIO ══════════════ -->
+  <section class="page-form" id="page-form" aria-label="Formulario de contacto">
+    <div class="card">
+      <h2 class="card-title">Formulario de contacto</h2>
+      <p class="card-subtitle">Completa los siguientes campos para enviarnos tu mensaje.</p>
+
+      <div class="field">
+        <label for="nombre">Nombre <span class="req">*</span></label>
+        <div class="input-wrap">
+          <input
+            type="text"
+            id="nombre"
+            name="nombre"
+            placeholder="Tu nombre completo"
+            autocomplete="name"
+          >
+          <i class="ti ti-alert-circle icon-error" id="err-icon-nombre" aria-hidden="true"></i>
+        </div>
+        <div class="error-wrap" id="err-nombre">
+          <i class="ti ti-alert-circle" aria-hidden="true"></i>
+          Este campo es obligatorio.
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="email">Email <span class="req">*</span></label>
+        <div class="input-wrap">
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="tucorreo@ejemplo.com"
+            autocomplete="email"
+          >
+          <i class="ti ti-alert-circle icon-error" id="err-icon-email" aria-hidden="true"></i>
+        </div>
+        <div class="error-wrap" id="err-email">
+          <i class="ti ti-alert-circle" aria-hidden="true"></i>
+          <span id="err-email-msg">Este campo es obligatorio.</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="asunto">Asunto <span class="req">*</span></label>
+        <div class="input-wrap">
+          <input
+            type="text"
+            id="asunto"
+            name="asunto"
+            placeholder="Motivo de tu mensaje"
+          >
+          <i class="ti ti-alert-circle icon-error" id="err-icon-asunto" aria-hidden="true"></i>
+        </div>
+        <div class="error-wrap" id="err-asunto">
+          <i class="ti ti-alert-circle" aria-hidden="true"></i>
+          Este campo es obligatorio.
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="mensaje">Mensaje <span class="req">*</span></label>
+        <div class="input-wrap">
+          <textarea
+            id="mensaje"
+            name="mensaje"
+            placeholder="Escribe tu mensaje aquí..."
+          ></textarea>
+          <i class="ti ti-alert-circle icon-error" id="err-icon-mensaje" aria-hidden="true" style="top:16px;transform:none"></i>
+        </div>
+        <div class="error-wrap" id="err-mensaje">
+          <i class="ti ti-alert-circle" aria-hidden="true"></i>
+          Este campo es obligatorio.
+        </div>
+      </div>
+
+      <button class="btn-enviar" onclick="enviarFormulario()">
+        <i class="ti ti-send" aria-hidden="true"></i>
+        Enviar mensaje
+      </button>
+
+      <a class="link-back" onclick="mostrarInicio()" href="#" role="button">
+        <i class="ti ti-arrow-left" aria-hidden="true"></i>
+        Volver al inicio
+      </a>
+    </div>
+  </section>
+
+  <!-- ══════════════ PÁGINA ÉXITO ══════════════ -->
+  <section class="page-success" id="page-success" aria-label="Mensaje enviado">
+    <div class="card">
+      <div class="success-check" aria-hidden="true">
+        <i class="ti ti-check"></i>
+      </div>
+
+      <h2 class="success-title">¡Mensaje recibido!</h2>
+      <p class="success-sub">Gracias, <strong id="res-nombre"></strong>.<br>Hemos recibido correctamente tu mensaje.</p>
+
+      <div class="success-info">
+        <div class="success-row">
+          <i class="ti ti-mail" aria-hidden="true"></i>
+          <div><strong>Email:</strong> <span id="res-email"></span></div>
+        </div>
+        <div class="success-row">
+          <i class="ti ti-file-description" aria-hidden="true"></i>
+          <div><strong>Asunto:</strong> <span id="res-asunto"></span></div>
+        </div>
+        <div class="success-row">
+          <i class="ti ti-message-2" aria-hidden="true"></i>
+          <div><strong>Mensaje:</strong><br><span id="res-mensaje" style="color:#444"></span></div>
+        </div>
+      </div>
+
+      <button class="btn-volver" onclick="mostrarInicio()">
+        <i class="ti ti-home" aria-hidden="true"></i>
+        Volver al inicio
+      </button>
+    </div>
+  </section>
+
+  <script>
+    /* ── Navegación entre páginas ── */
+    function mostrarFormulario() {
+      ocultarTodo();
+      document.getElementById('page-form').classList.add('visible');
+    }
+
+    function mostrarInicio() {
+      ocultarTodo();
+      limpiarFormulario();
+      document.getElementById('page-inicio').classList.add('visible');
+    }
+
+    function mostrarExito() {
+      ocultarTodo();
+      document.getElementById('page-success').classList.add('visible');
+    }
+
+    function ocultarTodo() {
+      document.querySelectorAll('.hero, .page-form, .page-success')
+        .forEach(el => el.classList.remove('visible'));
+    }
+
+    /* ── Validación ── */
+    function validarCampo(id, errorId, iconId, condicion, msg) {
+      const input = document.getElementById(id);
+      const errDiv = document.getElementById(errorId);
+      const errIcon = document.getElementById(iconId);
+      const msgEl = errDiv.querySelector('span') || errDiv.lastChild;
+
+      if (!condicion(input.value)) {
+        input.classList.add('error');
+        errDiv.classList.add('visible');
+        if (errIcon) errIcon.classList.add('visible');
+        if (msg && typeof msgEl === 'object' && msgEl.nodeType === 3) {
+          // nodo texto simple
+        }
+        return false;
+      } else {
+        input.classList.remove('error');
+        errDiv.classList.remove('visible');
+        if (errIcon) errIcon.classList.remove('visible');
+        return true;
+      }
+    }
+
+    function isEmail(val) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim());
+    }
+
+    /* ── Eventos blur (validación en tiempo real) ── */
+    document.getElementById('nombre').addEventListener('blur', () => {
+      validarCampo('nombre', 'err-nombre', 'err-icon-nombre',
+        v => v.trim() !== '');
+    });
+    document.getElementById('email').addEventListener('blur', () => {
+      const val = document.getElementById('email').value.trim();
+      const ok = val !== '' && isEmail(val);
+      const msg = val === '' ? 'Este campo es obligatorio.'
+                             : 'Ingresa un email válido.';
+      document.getElementById('err-email-msg').textContent = msg;
+      validarCampo('email', 'err-email', 'err-icon-email',
+        v => v.trim() !== '' && isEmail(v));
+    });
+    document.getElementById('asunto').addEventListener('blur', () => {
+      validarCampo('asunto', 'err-asunto', 'err-icon-asunto',
+        v => v.trim() !== '');
+    });
+    document.getElementById('mensaje').addEventListener('blur', () => {
+      validarCampo('mensaje', 'err-mensaje', 'err-icon-mensaje',
+        v => v.trim() !== '');
+    });
+
+    /* ── Enviar formulario ── */
+    function enviarFormulario() {
+      const v1 = validarCampo('nombre',  'err-nombre',  'err-icon-nombre',  v => v.trim() !== '');
+      const v2 = validarCampo('asunto',  'err-asunto',  'err-icon-asunto',  v => v.trim() !== '');
+      const v3 = validarCampo('mensaje', 'err-mensaje', 'err-icon-mensaje', v => v.trim() !== '');
+
+      const emailVal = document.getElementById('email').value.trim();
+      let v4;
+      if (emailVal === '') {
+        document.getElementById('err-email-msg').textContent = 'Este campo es obligatorio.';
+        v4 = false;
+      } else if (!isEmail(emailVal)) {
+        document.getElementById('err-email-msg').textContent = 'Ingresa un email válido.';
+        v4 = false;
+      } else {
+        v4 = true;
+      }
+      validarCampo('email', 'err-email', 'err-icon-email', v => v.trim() !== '' && isEmail(v));
+
+      if (!v1 || !v2 || !v3 || !v4) return;
+
+      /* Pasar datos a la página de éxito */
+      document.getElementById('res-nombre').textContent  = document.getElementById('nombre').value.trim();
+      document.getElementById('res-email').textContent   = document.getElementById('email').value.trim();
+      document.getElementById('res-asunto').textContent  = document.getElementById('asunto').value.trim();
+      document.getElementById('res-mensaje').textContent = document.getElementById('mensaje').value.trim();
+
+      mostrarExito();
+    }
+
+    /* ── Limpiar formulario ── */
+    function limpiarFormulario() {
+      ['nombre','email','asunto','mensaje'].forEach(id => {
+        const el = document.getElementById(id);
+        el.value = '';
+        el.classList.remove('error');
+      });
+      document.querySelectorAll('.error-wrap').forEach(e => e.classList.remove('visible'));
+      document.querySelectorAll('.icon-error').forEach(e => e.classList.remove('visible'));
+    }
+
+    /* ── Enter en inputs ── */
+    document.querySelectorAll('input').forEach(input => {
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Enter') enviarFormulario();
+      });
+    });
+  </script>
+
+</body>
+</html>
